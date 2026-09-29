@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>A LITTLE UNIVERSE FOR YOU ✨🌙</title>
+  <meta name="description" content="An ultra-premium, cinematic birthday experience for Kuchupuchu ❤️" />
+  <meta property="og:title" content="A LITTLE UNIVERSE FOR YOU ✨🌙" />
+  <meta property="og:description" content="A tiny universe created from code, especially for Kuchupuchu." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Google Fonts: Luxury Serif, Dreamy Handwriting, Clean Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================
+       RESET & BASE STYLING (Zero Dependencies)
+       ========================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    :root {
+      --bg-dark: #030409;
+      --gold-primary: #f6d365;
+      --gold-glow: rgba(246, 211, 101, 0.45);
+      --rose-primary: #fda085;
+      --rose-glow: rgba(253, 160, 133, 0.4);
+      --starlight: #eef5fc;
+      --font-display: 'Cinzel', serif;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-hand: 'Caveat', cursive;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-dark);
+      color: #ffffff;
+      font-family: var(--font-sans);
+      background-image: radial-gradient(circle at 50% 50%, #0d1127 0%, #030409 100%);
+    }
+
+    /* Ambient desktop framing: simulates ultra-sleek 9:16 vertical phone for Reel recording */
+    .app-viewport-wrapper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #0c102a 0%, #020308 100%);
+    }
+
+    .device-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 520px; /* Elegant 9:16 mobile frame on desktop */
+      max-height: 100%;
+      aspect-ratio: 9 / 16;
+      background: #020307;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.8), 0 0 100px rgba(110, 80, 240, 0.15);
+      border-radius: 0;
+    }
+
+    @media (min-width: 768px) {
+      .device-stage {
+        height: 96dvh;
+        border-radius: 36px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 90px rgba(125, 95, 255, 0.25);
+      }
+    }
+
+    /* Fullscreen Master Canvas */
+    #universe-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      display: block;
+      pointer-events: auto;
+    }
+
+    /* Safe Content Overlay Layer */
+    .ui-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 24px) 24px env(safe-area-inset-bottom, 24px) 24px;
+    }
+
+    .interactive, button, .clickable {
+      pointer-events: auto;
+    }
+
+    /* Minimal Cinematic Top Bar (Safe Area) */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      z-index: 30;
+      opacity: 0.9;
+      transition: opacity 0.4s ease;
+    }
+
+    .brand-mark {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+    }
+
+    .hud-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: scale(1.08);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .icon-btn svg {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Sound playing wave animation */
+    .sound-waves {
+      display: flex;
+      align-items: center;
+      gap: 2.5px;
+      height: 14px;
+    }
+    .sound-bar {
+      width: 2px;
+      height: 100%;
+      background: #f6d365;
+      border-radius: 2px;
+      animation: soundJump 1s ease-in-out infinite alternate;
+    }
+    .sound-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+    .sound-bar:nth-child(2) { height: 80%; animation-delay: 0.3s; }
+    .sound-bar:nth-child(3) { height: 100%; animation-delay: 0.2s; }
+    .sound-bar:nth-child(4) { height: 50%; animation-delay: 0.4s; }
+
+    @keyframes soundJump {
+      0% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
+    }
+
+    /* Story Center Stage: Dynamic Text & Scenes */
+    .center-stage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 440px;
+      text-align: center;
+      z-index: 20;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scene-text {
+      opacity: 0;
+      transform: translateY(16px) scale(0.97);
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: var(--font-serif);
+      font-size: 26px;
+      line-height: 1.4;
+      font-weight: 300;
+      color: #ffffff;
+      text-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 0 50px rgba(180, 140, 255, 0.4);
+      margin-bottom: 12px;
+    }
+
+    .scene-text.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .scene-text.exit {
+      opacity: 0;
+      transform: translateY(-14px) scale(1.02);
+    }
+
+    .scene-subtext {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 300;
+      margin-top: 8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Dramatic Cinematic Text Highlighting */
+    .gold-shimmer {
+      background: linear-gradient(135deg, #fff2be 0%, #f6d365 40%, #fda085 80%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 600;
+      text-shadow: 0 0 30px rgba(246, 211, 101, 0.6);
+    }
+
+    .pulse-glow {
+      animation: pulseGlow 2.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(246, 211, 101, 0.4); }
+      100% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.9), 0 0 60px rgba(253, 160, 133, 0.8); }
+    }
+
+    /* Action Buttons (Enter, Blow, Open, etc.) */
+    .celestial-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 34px;
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #0b0c16;
+      background: linear-gradient(135deg, #ffffff 0%, #fce99f 50%, #fda085 100%);
+      border: none;
+      border-radius: 9999px;
+      box-shadow: 0 0 35px rgba(246, 211, 101, 0.6), 0 0 65px rgba(253, 160, 133, 0.3);
+      cursor: pointer;
+      pointer-events: auto;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: 24px;
+      animation: floatBtn 3s ease-in-out infinite alternate;
+    }
+
+    .celestial-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 0 50px rgba(246, 211, 101, 0.9), 0 0 90px rgba(253, 160, 133, 0.6);
+    }
+
+    .celestial-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+
+    @keyframes floatBtn {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-6px); }
+    }
+
+    /* Glowing Envelope Component (Scene 7) */
+    .envelope-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.85);
+      width: 220px;
+      height: 150px;
+      z-index: 38;
+      opacity: 0;
+      pointer-events: none !important;
+      visibility: hidden;
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .envelope-container:not(.active) * {
+      pointer-events: none !important;
+    }
+
+    .envelope-container.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto !important;
+      transform: translate(-50%, -50%) scale(1);
+      animation: envelopeFloat 3s ease-in-out infinite alternate;
+    }
+
+    .envelope-container.opening {
+      transform: translate(-50%, -50%) scale(1.15);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none !important;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    @keyframes envelopeFloat {
+      0% { transform: translate(-50%, -50%) translateY(0); }
+      100% { transform: translate(-50%, -50%) translateY(-10px); }
+    }
+
+    /* Secret Letter Container (Scene 7 & 8) */
+    .letter-modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.92);
+      width: 90%;
+      max-width: 380px;
+      background: linear-gradient(145deg, #fffbf2 0%, #f7f1e1 100%);
+      border-radius: 18px;
+      padding: 30px 24px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7), 0 0 40px rgba(246, 211, 101, 0.35);
+      color: #2b2520;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none !important;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 40;
+      border: 1px solid rgba(220, 195, 150, 0.6);
+    }
+
+    .letter-modal:not(.active) * {
+      pointer-events: none !important;
+    }
+
+    .letter-modal.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: auto !important;
+    }
+
+    .letter-modal.fold-to-gift {
+      animation: foldLetter 1.2s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    }
+
+    @keyframes foldLetter {
+      0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+      50% { transform: translate(-50%, -50%) scale(0.5) rotate(15deg); opacity: 0.8; }
+      100% { transform: translate(-50%, -50%) scale(0.1) rotate(45deg); opacity: 0; visibility: hidden; pointer-events: none !important; }
+    }
+
+    .letter-stamp {
+      position: absolute;
+      top: -16px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      background: radial-gradient(circle, #b92b27, #851412);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffd79e;
+      font-size: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      border: 2px dashed rgba(255, 230, 180, 0.6);
+    }
+
+    .letter-salutation {
+      font-family: var(--font-hand);
+      font-size: 28px;
+      color: #7b2cbf;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .letter-body {
+      font-family: var(--font-hand);
+      font-size: 22px;
+      line-height: 1.5;
+      color: #3d342c;
+      min-height: 160px;
+      white-space: pre-line;
+    }
+
+    .letter-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: #7b2cbf;
+      vertical-align: middle;
+      animation: blink 0.7s infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* 3D Gift Box (Scene 8) */
+    .gift-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 180px;
+      height: 180px;
+      z-index: 45;
+      pointer-events: none !important;
+      visibility: hidden;
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease, visibility 0.5s;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .gift-container:not(.active) * {
+      pointer-events: none !important;
+    }
+
+    .gift-container.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto !important;
+      animation: giftFloating 2.8s ease-in-out infinite alternate;
+    }
+
+    .gift-container.bursting {
+      animation: giftBurst 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      pointer-events: none !important;
+    }
+
+    @keyframes giftFloating {
+      0% { transform: translate(-50%, -50%) scale(1) translateY(0) rotate(-2deg); }
+      100% { transform: translate(-50%, -50%) scale(1) translateY(-12px) rotate(2deg); }
+    }
+
+    @keyframes giftBurst {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      40% { transform: translate(-50%, -50%) scale(1.25) rotate(-5deg); filter: brightness(2); }
+      100% { transform: translate(-50%, -50%) scale(2.8); opacity: 0; filter: brightness(4); pointer-events: none !important; }
+    }
+
+    /* Birthday Cake Visual (Scene 9 & 10) */
+    .cake-container {
+      position: absolute;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      width: 260px;
+      height: 280px;
+      z-index: 35;
+      pointer-events: none !important;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .cake-container:not(.active) * {
+      pointer-events: none !important;
+    }
+
+    .cake-container.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: auto !important;
+    }
+
+    .candle-flame {
+      transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: flameWiggle 0.8s ease-in-out infinite alternate;
+      transform-origin: center bottom;
+    }
+
+    @keyframes flameWiggle {
+      0% { transform: scale(1) rotate(-3deg); }
+      100% { transform: scale(1.1) rotate(4deg); }
+    }
+
+    .candle-flame.extinguished {
+      opacity: 0 !important;
+      transform: scale(0.1) translateY(-10px) !important;
+    }
+
+    /* Memory Orb Modal (Scene 6) */
+    .orb-modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      width: 86%;
+      max-width: 360px;
+      background: rgba(14, 18, 38, 0.85);
+      border: 1px solid rgba(246, 211, 101, 0.35);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 24px;
+      padding: 28px 22px;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none !important;
+      z-index: 50;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(138, 92, 246, 0.3);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .orb-modal:not(.active) * {
+      pointer-events: none !important;
+    }
+
+    .orb-modal.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: auto !important;
+    }
+
+    .orb-modal-icon {
+      font-size: 44px;
+      margin-bottom: 12px;
+      display: inline-block;
+      filter: drop-shadow(0 0 15px rgba(246, 211, 101, 0.8));
+      animation: floatIcon 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatIcon {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+
+    .orb-modal-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 0.12em;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .orb-modal-desc {
+      font-family: var(--font-serif);
+      font-size: 19px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 22px;
+    }
+
+    /* Grand Finale Reveal (Scene 12 & 13) */
+    .grand-reveal {
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 92%;
+      max-width: 460px;
+      text-align: center;
+      z-index: 45;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none !important;
+      transition: opacity 1.5s ease, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.5s;
+    }
+
+    .grand-reveal:not(.active) * {
+      pointer-events: none !important;
+      cursor: default !important;
+    }
+
+    .grand-reveal.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto !important;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .grand-tagline {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 8px;
+    }
+
+    .grand-title {
+      font-family: var(--font-display);
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 0%, #ffeaa7 40%, #ff7675 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 35px rgba(255, 118, 117, 0.6);
+      margin-bottom: 6px;
+    }
+
+    .grand-name {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      color: #ff4757;
+      text-shadow: 0 0 40px rgba(255, 71, 87, 0.8), 0 0 80px rgba(255, 107, 129, 0.5);
+      margin-bottom: 18px;
+      display: inline-block;
+      animation: heartbeat 1.8s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.08); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.05); }
+      70% { transform: scale(1); }
+    }
+
+    .grand-quote {
+      font-family: var(--font-serif);
+      font-size: 21px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.95);
+      font-style: italic;
+      margin-bottom: 22px;
+      text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9);
+    }
+
+    .grand-blessing {
+      font-family: var(--font-hand);
+      font-size: 26px;
+      color: #f6d365;
+      line-height: 1.35;
+      margin-bottom: 24px;
+    }
+
+    /* Bottom Control Bar / Navigation Dots */
+    .bottom-hud {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 30;
+      padding-bottom: 10px;
+      transition: opacity 0.4s ease;
+    }
+
+    .timeline-bar-wrap {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .timeline-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f6d365, #fda085, #ff4757);
+      box-shadow: 0 0 10px rgba(246, 211, 101, 0.8);
+      transition: width 0.1s linear;
+    }
+
+    .hud-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 6px;
+    }
+
+    .scene-name-pill {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 500;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .text-pill-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .text-pill-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Blackout Curtain for dramatic scene changes */
+    #blackout-curtain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Screen Flash for Light Bursts */
+    #flash-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.8) 50%, rgba(246,211,101,0) 100%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 70;
+      transition: opacity 0.1s ease-out;
+    }
+
+    /* Stardust tap ripple */
+    .tap-sparkle {
+      position: absolute;
+      pointer-events: none;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 12px #f6d365, 0 0 20px #ff7675;
+      animation: explodeSparkle 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      z-index: 90;
+    }
+
+    @keyframes explodeSparkle {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+    }
+
+    /* Clean Reel Recording Mode (hides HUD) */
+    body.clean-mode .top-bar,
+    body.clean-mode .bottom-hud {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .scene-text { font-size: 22px; }
+      .grand-title { font-size: 28px; }
+      .grand-name { font-size: 34px; }
+      .grand-quote { font-size: 18px; }
+      .letter-body { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-viewport-wrapper">
+    <div class="device-stage" id="deviceStage">
+      <!-- Fullscreen High-DPI Canvas for stars, constellations, moon, garden, particles -->
+      <canvas id="universe-canvas"></canvas>
+
+      <!-- Blackout & Flash Overlay FX -->
+      <div id="blackout-curtain"></div>
+      <div id="flash-overlay"></div>
+
+      <!-- Safe-Area UI Overlay -->
+      <div class="ui-overlay">
+        <!-- Top Navigation / Ambient HUD -->
+        <header class="top-bar">
+          <div class="brand-mark">A LITTLE UNIVERSE ✨</div>
+          <div class="hud-controls">
+            <!-- Audio Toggle with Sound Wave Graphic -->
+            <button id="audioToggleBtn" class="icon-btn" aria-label="Toggle celestial soundscape" title="Play ambient soundscape">
+              <span id="soundActiveWaves" class="sound-waves" style="display: none;">
+                <span class="sound-bar"></span>
+                <span class="sound-bar"></span>
+                <span class="sound-bar"></span>
+                <span class="sound-bar"></span>
+              </span>
+              <svg id="soundMutedIcon" viewBox="0 0 24 24">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <line x1="23" y1="9" x2="17" y2="15"/>
+                <line x1="17" y1="9" x2="23" y2="15"/>
+              </svg>
+            </button>
+
+            <!-- Clean Screen Toggle for Instagram Reel Recording -->
+            <button id="cleanModeBtn" class="icon-btn" aria-label="Clean screen for recording" title="Toggle Clean Mode (For Reels)">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Center Stage: Story Text & Action Buttons -->
+        <main class="center-stage" id="centerStage">
+          <!-- Text Layer dynamically updated by Story Engine -->
+          <div id="primarySceneText" class="scene-text"></div>
+          <div id="secondarySceneText" class="scene-subtext"></div>
+          <div id="actionBtnContainer"></div>
+        </main>
+
+        <!-- Glowing Envelope Component (Scene 7) -->
+        <div id="envelopeContainer" class="envelope-container interactive" title="Tap to open letter">
+          <svg viewBox="0 0 220 150" width="100%" height="100%">
+            <defs>
+              <linearGradient id="envGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fff8f0" />
+                <stop offset="100%" stop-color="#eddcd0" />
+              </linearGradient>
+              <filter id="envGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#f6d365" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <!-- Envelope Body -->
+            <rect x="10" y="20" width="200" height="120" rx="10" fill="url(#envGrad)" filter="url(#envGlow)" />
+            <!-- Inner Folds -->
+            <path d="M10 20 L110 88 L210 20" stroke="#d5beac" stroke-width="2" fill="none" />
+            <path d="M10 140 L85 80" stroke="#d5beac" stroke-width="2" />
+            <path d="M210 140 L135 80" stroke="#d5beac" stroke-width="2" />
+            <!-- Flap Triangular Fold -->
+            <polygon points="10,20 210,20 110,88" fill="#f5e7db" />
+            <!-- Wax Seal with Heart -->
+            <circle cx="110" cy="88" r="17" fill="#b92b27" stroke="#ffd79e" stroke-width="2.5" />
+            <text x="110" y="94" font-size="14" fill="#ffd79e" text-anchor="middle">❤️</text>
+          </svg>
+        </div>
+
+        <!-- Secret Letter Component (Scene 7 & 8) -->
+        <div id="letterModal" class="letter-modal">
+          <div class="letter-stamp">❤️</div>
+          <div class="letter-salutation">Dear Kuchupuchu,</div>
+          <div id="letterBody" class="letter-body"></div>
+        </div>
+
+        <!-- 3D Gift Box Component (Scene 8) -->
+        <div id="giftContainer" class="gift-container interactive" title="Tap to open surprise!">
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <defs>
+              <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff7675" />
+                <stop offset="50%" stop-color="#d63031" />
+                <stop offset="100%" stop-color="#741214" />
+              </linearGradient>
+              <linearGradient id="lidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff9f43" />
+                <stop offset="100%" stop-color="#ee5253" />
+              </linearGradient>
+              <linearGradient id="goldRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fff8db" />
+                <stop offset="50%" stop-color="#f6d365" />
+                <stop offset="100%" stop-color="#d49419" />
+              </linearGradient>
+              <filter id="boxShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#000" flood-opacity="0.6"/>
+              </filter>
+            </defs>
+            <!-- Box Body -->
+            <rect x="40" y="80" width="120" height="90" rx="8" fill="url(#boxGrad)" filter="url(#boxShadow)" />
+            <!-- Vertical Ribbon -->
+            <rect x="88" y="80" width="24" height="90" fill="url(#goldRibbon)" />
+            <!-- Horizontal Ribbon -->
+            <rect x="40" y="118" width="120" height="18" fill="url(#goldRibbon)" />
+            <!-- Box Lid -->
+            <rect x="32" y="65" width="136" height="24" rx="5" fill="url(#lidGrad)" filter="url(#boxShadow)" />
+            <rect x="88" y="65" width="24" height="24" fill="url(#goldRibbon)" />
+            <!-- Big Satin Bow -->
+            <path d="M100 65 C85 40 50 35 70 60 C85 70 95 65 100 65 Z" fill="url(#goldRibbon)" />
+            <path d="M100 65 C115 40 150 35 130 60 C115 70 105 65 100 65 Z" fill="url(#goldRibbon)" />
+            <circle cx="100" cy="65" r="9" fill="#f6d365" />
+          </svg>
+        </div>
+
+        <!-- Birthday Cake Component (Scene 9 & 10) -->
+        <div id="cakeContainer" class="cake-container interactive">
+          <svg viewBox="0 0 260 260" width="100%" height="100%">
+            <defs>
+              <linearGradient id="tierBottom" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3d1e44"/>
+                <stop offset="50%" stop-color="#2a1435"/>
+                <stop offset="100%" stop-color="#190a22"/>
+              </linearGradient>
+              <linearGradient id="tierTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff9ff3"/>
+                <stop offset="50%" stop-color="#f368e0"/>
+                <stop offset="100%" stop-color="#be2edd"/>
+              </linearGradient>
+              <linearGradient id="frostingGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#fff8db"/>
+                <stop offset="50%" stop-color="#f6d365"/>
+                <stop offset="100%" stop-color="#fda085"/>
+              </linearGradient>
+              <radialGradient id="flameGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#fff" />
+                <stop offset="40%" stop-color="#f6d365" />
+                <stop offset="80%" stop-color="#ff7675" />
+                <stop offset="100%" stop-color="rgba(255, 71, 87, 0)" />
+              </radialGradient>
+              <filter id="cakeGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#f368e0" flood-opacity="0.4"/>
+              </filter>
+            </defs>
+
+            <!-- Cake Stand / Golden Plate -->
+            <ellipse cx="130" cy="235" rx="100" ry="12" fill="url(#frostingGold)" opacity="0.9" />
+
+            <!-- Bottom Tier -->
+            <rect x="50" y="170" width="160" height="55" rx="8" fill="url(#tierBottom)" filter="url(#cakeGlow)" />
+            <!-- Frosting Drips Bottom Tier -->
+            <path d="M50 170 C60 185 70 185 80 170 C90 190 100 190 110 170 C120 188 130 188 140 170 C150 192 160 192 170 170 C180 186 190 186 200 170 L210 170 L210 176 L50 176 Z" fill="url(#frostingGold)" />
+
+            <!-- Middle Tier -->
+            <rect x="75" y="125" width="110" height="48" rx="6" fill="url(#tierTop)" />
+            <!-- Frosting Drips Middle Tier -->
+            <path d="M75 125 C85 138 95 138 105 125 C115 142 125 142 135 125 C145 140 155 140 165 125 C175 138 185 125 185 125 L185 130 L75 130 Z" fill="#ffffff" opacity="0.95" />
+
+            <!-- Decorative Star Pearls -->
+            <circle cx="90" cy="155" r="3.5" fill="#f6d365" />
+            <circle cx="115" cy="155" r="3.5" fill="#f6d365" />
+            <circle cx="145" cy="155" r="3.5" fill="#f6d365" />
+            <circle cx="170" cy="155" r="3.5" fill="#f6d365" />
+
+            <!-- 5 Gold Birthday Candles -->
+            <!-- Candle 1 -->
+            <rect x="88" y="95" width="5" height="30" rx="2" fill="url(#frostingGold)" />
+            <g id="candleFlame1" class="candle-flame">
+              <ellipse cx="90.5" cy="85" rx="4.5" ry="9" fill="url(#flameGlow)" />
+              <ellipse cx="90.5" cy="86" rx="2" ry="4" fill="#ffffff" />
+            </g>
+
+            <!-- Candle 2 -->
+            <rect x="108" y="90" width="5" height="35" rx="2" fill="url(#frostingGold)" />
+            <g id="candleFlame2" class="candle-flame">
+              <ellipse cx="110.5" cy="80" rx="5" ry="10" fill="url(#flameGlow)" />
+              <ellipse cx="110.5" cy="81" rx="2.2" ry="4.5" fill="#ffffff" />
+            </g>
+
+            <!-- Candle 3 (Center - Highest) -->
+            <rect x="127.5" y="85" width="5" height="40" rx="2" fill="url(#frostingGold)" />
+            <g id="candleFlame3" class="candle-flame">
+              <ellipse cx="130" cy="74" rx="5.5" ry="11" fill="url(#flameGlow)" />
+              <ellipse cx="130" cy="75" rx="2.5" ry="5" fill="#ffffff" />
+            </g>
+
+            <!-- Candle 4 -->
+            <rect x="147" y="90" width="5" height="35" rx="2" fill="url(#frostingGold)" />
+            <g id="candleFlame4" class="candle-flame">
+              <ellipse cx="149.5" cy="80" rx="5" ry="10" fill="url(#flameGlow)" />
+              <ellipse cx="149.5" cy="81" rx="2.2" ry="4.5" fill="#ffffff" />
+            </g>
+
+            <!-- Candle 5 -->
+            <rect x="167" y="95" width="5" height="30" rx="2" fill="url(#frostingGold)" />
+            <g id="candleFlame5" class="candle-flame">
+              <ellipse cx="169.5" cy="85" rx="4.5" ry="9" fill="url(#flameGlow)" />
+              <ellipse cx="169.5" cy="86" rx="2" ry="4" fill="#ffffff" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- Interactive Memory Orb Popup (Scene 6) -->
+        <div id="orbModal" class="orb-modal">
+          <div id="orbModalIcon" class="orb-modal-icon">🌸</div>
+          <h2 id="orbModalTitle" class="orb-modal-title">Your Smile</h2>
+          <p id="orbModalDesc" class="orb-modal-desc">The kind of smile that quietly fixes everything around you.</p>
+          <button id="closeOrbModalBtn" class="celestial-btn" style="margin-top: 0; padding: 10px 26px; font-size: 11px;">Keep Dreaming ✨</button>
+        </div>
+
+        <!-- Grand Birthday Reveal Stage (Scene 12 & 13) -->
+        <div id="grandReveal" class="grand-reveal">
+          <div class="grand-tagline">To the one who lights up the dark</div>
+          <h1 class="grand-title">HAPPY BIRTHDAY</h1>
+          <div class="grand-name">KUCHUPUCHU ❤️</div>
+          <p class="grand-quote">“You are not just another person in my world…<br/>You are my favourite part of it. 🫶”</p>
+          <div class="grand-blessing">
+            Stay happy. ✨<br/>
+            Stay crazy. 🌙<br/>
+            Stay you. ❤️
+          </div>
+          <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <button id="replayBtn" class="celestial-btn" style="margin-top: 6px; padding: 12px 28px;">
+              Replay Universe ↺
+            </button>
+            <button id="makeWishStarBtn" class="text-pill-btn interactive" style="padding: 12px 20px; font-size: 12px; border-radius: 9999px;">
+              Send Starlight Wish 🌟
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom Timeline & Scene Navigation HUD -->
+        <footer class="bottom-hud">
+          <div class="timeline-bar-wrap">
+            <div id="timelineFill" class="timeline-fill"></div>
+          </div>
+          <div class="hud-controls-row">
+            <span id="sceneNameDisplay" class="scene-name-pill">Scene 1 · The Beginning</span>
+            <div class="nav-actions">
+              <button id="prevSceneBtn" class="text-pill-btn" aria-label="Go to previous scene">❮ Prev</button>
+              <button id="pausePlayBtn" class="text-pill-btn" aria-label="Pause or play timeline">Pause</button>
+              <button id="nextSceneBtn" class="text-pill-btn" aria-label="Skip to next scene">Next ❯</button>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       COMPLETE EMBEDDED JAVASCRIPT & AUDIO ENGINE
+       ========================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ==========================================================
+         1. AUDIO SYNTHESIZER ENGINE (Web Audio API - Pure Code)
+         Zero external MP3 dependencies - 100% reliable offline
+         ========================================================== */
+      class CelestialAudioEngine {
+        constructor() {
+          this.ctx = null;
+          this.isPlaying = false;
+          this.masterGain = null;
+          this.timer = null;
+          this.step = 0;
+          this.micStream = null;
+          this.analyser = null;
+          this.micListening = false;
+          this.userMuted = false;
+        }
+
+        init() {
+          if (this.ctx) return;
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+          this.masterGain = this.ctx.createGain();
+          this.masterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+          this.masterGain.connect(this.ctx.destination);
+        }
+
+        start() {
+          this.init();
+          if (this.ctx.state === 'suspended') {
+            this.ctx.resume();
+          }
+          this.isPlaying = true;
+          this.playAmbientLoop();
+        }
+
+        stop() {
+          this.isPlaying = false;
+          if (this.timer) clearInterval(this.timer);
+        }
+
+        // Generates soft celestial chords and harp arpeggios
+        playAmbientLoop() {
+          // Dreamy pentatonic notes: F#4, G#4, A#4, C#5, D#5, F#5, G#5, A#5
+          const scale = [369.99, 415.30, 466.16, 554.37, 622.25, 739.99, 830.61, 932.33];
+          const chords = [
+            [369.99, 466.16, 554.37, 739.99], // F#maj7
+            [311.13, 369.99, 466.16, 622.25], // D#m7
+            [277.18, 369.99, 415.30, 554.37], // C#sus
+            [246.94, 369.99, 466.16, 554.37]  // Bmaj9
+          ];
+
+          let chordIdx = 0;
+          this.timer = setInterval(() => {
+            if (!this.isPlaying || !this.ctx) return;
+            const now = this.ctx.currentTime;
+
+            // Trigger soft chord pad every 4 steps
+            if (this.step % 4 === 0) {
+              const chord = chords[chordIdx % chords.length];
+              chordIdx++;
+              chord.forEach((freq) => {
+                this.playPadVoice(freq, 3.8);
+              });
+            }
+
+            // Trigger gentle twinkling chime
+            if (Math.random() > 0.3) {
+              const note = scale[Math.floor(Math.random() * scale.length)];
+              this.playChime(note, 0.08);
+            }
+
+            this.step++;
+          }, 650);
+        }
+
+        playPadVoice(freq, duration) {
+          if (!this.ctx) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const filter = this.ctx.createBiquadFilter();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(800, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(0, this.ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.04, this.ctx.currentTime + 1.2);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.masterGain);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration + 0.1);
+        }
+
+        playChime(freq, vol = 0.1) {
+          if (!this.ctx) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1.5);
+
+          osc.connect(gain);
+          gain.connect(this.masterGain);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + 1.6);
+        }
+
+        // Starburst / Enter portal whoosh sound
+        playStarburstSound() {
+          if (!this.ctx) return;
+          const now = this.ctx.currentTime;
+          [554.37, 622.25, 739.99, 830.61, 1108.73, 1479.98].forEach((f, i) => {
+            setTimeout(() => this.playChime(f, 0.15), i * 60);
+          });
+        }
+
+        // Candle blowing sound (soft filtered noise breath)
+        playBlowSound() {
+          if (!this.ctx) return;
+          const bufferSize = this.ctx.sampleRate * 1.2;
+          const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * 0.5;
+          }
+
+          const noise = this.ctx.createBufferSource();
+          noise.buffer = buffer;
+
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(600, this.ctx.currentTime);
+          filter.Q.setValueAtTime(2, this.ctx.currentTime);
+
+          const gain = this.ctx.createGain();
+          gain.gain.setValueAtTime(0.01, this.ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.18, this.ctx.currentTime + 0.3);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 1.2);
+
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.masterGain);
+
+          noise.start();
+          noise.stop(this.ctx.currentTime + 1.2);
+        }
+
+        // Listen for real microphone blow
+        initMicBlowDetection(onBlowDetected) {
+          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+          navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+            this.init();
+            this.micStream = stream;
+            const micSource = this.ctx.createMediaStreamSource(stream);
+            this.analyser = this.ctx.createAnalyser();
+            this.analyser.fftSize = 256;
+            micSource.connect(this.analyser);
+            this.micListening = true;
+
+            const buffer = new Uint8Array(this.analyser.frequencyBinCount);
+            const checkBlow = () => {
+              if (!this.micListening) return;
+              this.analyser.getByteFrequencyData(buffer);
+              // Low frequency breath turbulence
+              let lowEnergy = 0;
+              for (let i = 2; i < 15; i++) {
+                lowEnergy += buffer[i];
+              }
+              const avg = lowEnergy / 13;
+              if (avg > 75) {
+                this.micListening = false;
+                if (onBlowDetected) onBlowDetected();
+              } else {
+                requestAnimationFrame(checkBlow);
+              }
+            };
+            checkBlow();
+          }).catch(() => {
+            // Microphone denied, tap button will handle blowing seamlessly
+          });
+        }
+
+        stopMic() {
+          this.micListening = false;
+          if (this.micStream) {
+            this.micStream.getTracks().forEach(t => t.stop());
+          }
+        }
+      }
+
+      /* ==========================================================
+         2. CANVAS GRAPHICS & PARTICLE SIMULATION
+         High-performance 60fps dynamic starfield, moon, flowers,
+         fireflies, constellations, cake smoke, and fireworks
+         ========================================================== */
+      class UniverseCanvas {
+        constructor(canvas) {
+          this.canvas = canvas;
+          this.ctx = canvas.getContext('2d');
+          this.width = 0;
+          this.height = 0;
+          this.dpr = window.devicePixelRatio || 1;
+
+          // Visual Entities
+          this.stars = [];
+          this.shootingStars = [];
+          this.particles = [];
+          this.fireflies = [];
+          this.flowers = [];
+          this.constellationNodes = [];
+          this.constellationLines = [];
+          this.orbs = [];
+
+          // State flags
+          this.sceneIndex = 1;
+          this.singleStarOnly = true;
+          this.starsGlobalAlpha = 0;
+          this.cameraZoom = 1;
+          this.moonScale = 0;
+          this.moonAlpha = 0;
+          this.gardenAlpha = 0;
+          this.heartFormProgress = 0;
+          this.wishStarsProgress = 0;
+
+          this.initResize();
+          this.initStars(380);
+          this.initFireflies(45);
+          this.initFlowers(6);
+          this.initMemoryOrbs();
+        }
+
+        initResize() {
+          const resize = () => {
+            const rect = this.canvas.parentElement.getBoundingClientRect();
+            this.width = rect.width;
+            this.height = rect.height;
+            this.canvas.width = this.width * this.dpr;
+            this.canvas.height = this.height * this.dpr;
+            this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+          };
+          window.addEventListener('resize', resize);
+          resize();
+        }
+
+        resetSceneState(sceneIndex) {
+          this.sceneIndex = sceneIndex;
+          this.wishStarsProgress = 0;
+          this.heartFormProgress = (sceneIndex === 2 ? 1 : 0);
+          this.singleStarOnly = (sceneIndex === 1);
+          this.starsGlobalAlpha = (sceneIndex === 1 ? 0 : 1);
+
+          if (sceneIndex === 2) {
+            this.moonAlpha = 0.7;
+            this.moonScale = 1;
+          } else if (sceneIndex === 3) {
+            this.moonAlpha = 1;
+            this.moonScale = 1.35;
+          } else {
+            this.moonAlpha = 0;
+            this.moonScale = 0;
+          }
+
+          this.gardenAlpha = (sceneIndex >= 4 ? 1 : 0);
+
+          if (sceneIndex < 5) {
+            this.flowers.forEach(f => { f.bloomScale = 0; });
+          } else if (sceneIndex === 5) {
+            this.flowers.forEach(f => { f.bloomScale = 0; });
+          } else {
+            this.flowers.forEach(f => { f.bloomScale = 1; });
+          }
+        }
+
+        initStars(count) {
+          this.stars = [];
+          for (let i = 0; i < count; i++) {
+            this.stars.push({
+              x: Math.random() * this.width,
+              y: Math.random() * this.height,
+              size: Math.random() * 2 + 0.5,
+              alpha: Math.random() * 0.8 + 0.2,
+              speed: Math.random() * 0.03 + 0.01,
+              hue: Math.random() > 0.7 ? 45 : (Math.random() > 0.5 ? 210 : 280),
+              flickerSpeed: Math.random() * 0.05 + 0.02
+            });
+          }
+        }
+
+        initFireflies(count) {
+          this.fireflies = [];
+          for (let i = 0; i < count; i++) {
+            this.fireflies.push({
+              x: Math.random() * this.width,
+              y: this.height * 0.55 + Math.random() * (this.height * 0.45),
+              radius: Math.random() * 2.5 + 1.2,
+              vx: (Math.random() - 0.5) * 0.8,
+              vy: (Math.random() - 0.5) * 0.8,
+              alpha: Math.random() * 0.6 + 0.3,
+              pulse: Math.random() * Math.PI * 2
+            });
+          }
+        }
+
+        initFlowers(count) {
+          this.flowers = [];
+          const stepX = this.width / (count + 1);
+          for (let i = 0; i < count; i++) {
+            this.flowers.push({
+              x: stepX * (i + 1) + (Math.random() - 0.5) * 16,
+              y: this.height - 85 - (i % 2) * 20,
+              petals: 6,
+              swayOffset: i * 1.2,
+              bloomScale: 0,
+              bloomed: false,
+              color: i % 2 === 0 ? '#ff7675' : '#fda085',
+              glowColor: i % 2 === 0 ? 'rgba(255, 118, 117, 0.9)' : 'rgba(253, 160, 133, 0.9)'
+            });
+          }
+        }
+
+        initMemoryOrbs() {
+          const orbData = [
+            { icon: '🌸', title: 'Your smile', desc: 'The kind of smile that quietly fixes everything around you.' },
+            { icon: '🌙', title: 'Late night talks', desc: 'When the rest of the world is asleep, and time completely stops.' },
+            { icon: '✨', title: 'Little moments', desc: 'The shared laughs, silly jokes, and quiet comfort of just being together.' },
+            { icon: '🎵', title: 'Our favourite vibe', desc: 'Unspoken wavelength, matching frequencies, and pure peace.' },
+            { icon: '❤️', title: 'That one special feeling', desc: 'Knowing that no matter where life goes, you\'re home.' },
+            { icon: '♾️', title: 'Forever memories', desc: 'Every second with you is a constellation I\'ll keep forever.' }
+          ];
+
+          this.orbs = orbData.map((data, i) => {
+            const angle = (i / orbData.length) * Math.PI * 2;
+            return {
+              ...data,
+              angle: angle,
+              orbitRadiusX: 110 + (i % 2) * 25,
+              orbitRadiusY: 150 + (i % 2) * 35,
+              x: 0,
+              y: 0,
+              radius: 26,
+              alpha: 0,
+              speed: 0.008 + (i % 3) * 0.003
+            };
+          });
+        }
+
+        spawnShootingStar() {
+          this.shootingStars.push({
+            x: Math.random() * this.width,
+            y: Math.random() * (this.height * 0.4),
+            length: Math.random() * 80 + 50,
+            speed: Math.random() * 12 + 10,
+            angle: Math.PI / 4 + (Math.random() - 0.5) * 0.2,
+            alpha: 1
+          });
+        }
+
+        createParticleExplosion(x, y, count = 50, colors = ['#f6d365', '#ff7675', '#ffffff', '#a29bfe']) {
+          for (let i = 0; i < count; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 7 + 2;
+            this.particles.push({
+              x,
+              y,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              size: Math.random() * 3 + 1.5,
+              color: colors[Math.floor(Math.random() * colors.length)],
+              alpha: 1,
+              decay: Math.random() * 0.02 + 0.015,
+              gravity: 0.08
+            });
+          }
+        }
+
+        createCandleSmoke(x, y) {
+          for (let i = 0; i < 30; i++) {
+            this.particles.push({
+              x: x + (Math.random() - 0.5) * 8,
+              y: y,
+              vx: (Math.random() - 0.5) * 1.2,
+              vy: -Math.random() * 2.8 - 1.5,
+              size: Math.random() * 4 + 2,
+              color: Math.random() > 0.5 ? '#f6d365' : '#ffffff',
+              alpha: 0.8,
+              decay: 0.012,
+              gravity: -0.04
+            });
+          }
+        }
+
+        // Renders the giant realistic glowing moon with craters & rim light
+        drawRealisticMoon(cx, cy, radius, alpha) {
+          if (alpha <= 0.01) return;
+          const ctx = this.ctx;
+          ctx.save();
+          ctx.globalAlpha = alpha;
+
+          // Atmospheric Halo
+          const halo = ctx.createRadialGradient(cx, cy, radius * 0.8, cx, cy, radius * 2.4);
+          halo.addColorStop(0, 'rgba(180, 205, 255, 0.45)');
+          halo.addColorStop(0.5, 'rgba(125, 95, 255, 0.18)');
+          halo.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          ctx.fillStyle = halo;
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius * 2.4, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Moon Body with Rim Gradient
+          const moonGrad = ctx.createRadialGradient(cx - radius * 0.35, cy - radius * 0.35, radius * 0.1, cx, cy, radius);
+          moonGrad.addColorStop(0, '#ffffff');
+          moonGrad.addColorStop(0.65, '#e2e8f0');
+          moonGrad.addColorStop(0.9, '#a0aec0');
+          moonGrad.addColorStop(1, '#4a5568');
+          ctx.fillStyle = moonGrad;
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Procedural Moon Craters
+          const craters = [
+            { x: -0.3, y: -0.2, r: 0.18 },
+            { x: 0.2, y: -0.35, r: 0.12 },
+            { x: 0.35, y: 0.15, r: 0.16 },
+            { x: -0.15, y: 0.35, r: 0.14 },
+            { x: -0.4, y: 0.1, r: 0.09 },
+            { x: 0.05, y: -0.05, r: 0.22 },
+            { x: 0.4, y: -0.1, r: 0.08 }
+          ];
+
+          craters.forEach(c => {
+            const craterX = cx + c.x * radius;
+            const craterY = cy + c.y * radius;
+            const craterR = c.r * radius;
+
+            const cGrad = ctx.createRadialGradient(craterX + craterR * 0.2, craterY + craterR * 0.2, craterR * 0.1, craterX, craterY, craterR);
+            cGrad.addColorStop(0, 'rgba(90, 105, 125, 0.45)');
+            cGrad.addColorStop(0.8, 'rgba(70, 80, 100, 0.3)');
+            cGrad.addColorStop(1, 'rgba(255, 255, 255, 0.25)');
+            ctx.fillStyle = cGrad;
+            ctx.beginPath();
+            ctx.arc(craterX, craterY, craterR, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          // Soft blue/purple rim glow
+          ctx.lineWidth = 4;
+          ctx.strokeStyle = 'rgba(165, 180, 252, 0.6)';
+          ctx.stroke();
+
+          ctx.restore();
+        }
+
+        // Heart Constellation Points
+        drawHeartConstellation(progress) {
+          if (progress <= 0.01) return;
+          const ctx = this.ctx;
+          ctx.save();
+          ctx.globalAlpha = Math.min(progress, 1);
+
+          const cx = this.width / 2;
+          const cy = this.height * 0.44;
+          const scale = 11;
+          const points = [];
+
+          // Parametric heart curve
+          for (let t = 0; t < Math.PI * 2; t += 0.32) {
+            const hx = 16 * Math.pow(Math.sin(t), 3);
+            const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+            points.push({ x: cx + hx * scale, y: cy + hy * scale });
+          }
+
+          // Connecting glowing lines
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(253, 160, 133, 0.75)';
+          ctx.lineWidth = 1.6;
+          ctx.shadowColor = '#f6d365';
+          ctx.shadowBlur = 12;
+
+          for (let i = 0; i < points.length; i++) {
+            const next = points[(i + 1) % points.length];
+            ctx.moveTo(points[i].x, points[i].y);
+            ctx.lineTo(next.x, next.y);
+          }
+          ctx.stroke();
+
+          // Star nodes at heart vertices
+          points.forEach((p, idx) => {
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, (idx % 2 === 0 ? 3.5 : 2.5), 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          ctx.restore();
+        }
+
+        // Dreamy Blooming Garden Flowers (Scene 4 & 5)
+        drawGarden(alpha) {
+          if (alpha <= 0.01) return;
+          const ctx = this.ctx;
+          ctx.save();
+          ctx.globalAlpha = alpha;
+
+          // Soft glowing ground horizon
+          const groundGrad = ctx.createLinearGradient(0, this.height - 130, 0, this.height);
+          groundGrad.addColorStop(0, 'rgba(8, 14, 30, 0)');
+          groundGrad.addColorStop(0.35, 'rgba(10, 16, 36, 0.65)');
+          groundGrad.addColorStop(1, 'rgba(4, 6, 16, 0.98)');
+          ctx.fillStyle = groundGrad;
+          ctx.fillRect(0, this.height - 130, this.width, 130);
+
+          const time = Date.now() * 0.002;
+
+          // Render flowers along pathway
+          this.flowers.forEach(f => {
+            if (f.bloomScale <= 0.02) return;
+            ctx.save();
+
+            const sway = Math.sin(time + f.swayOffset) * 5 * f.bloomScale;
+            const headX = f.x + sway;
+            const headY = f.y;
+            const rootX = f.x;
+            const rootY = this.height - 15;
+
+            // Delicate organic stem
+            ctx.beginPath();
+            ctx.moveTo(rootX, rootY);
+            ctx.quadraticCurveTo(rootX - 6 + sway * 0.5, (rootY + headY) / 2, headX, headY);
+            ctx.strokeStyle = 'rgba(74, 222, 128, 0.7)';
+            ctx.lineWidth = 2;
+            ctx.shadowColor = 'rgba(74, 222, 128, 0.4)';
+            ctx.shadowBlur = 6;
+            ctx.stroke();
+
+            // Small stem leaf
+            ctx.fillStyle = 'rgba(52, 211, 153, 0.6)';
+            ctx.beginPath();
+            ctx.ellipse(rootX - 4, (rootY + headY) * 0.55, 6 * f.bloomScale, 2.5 * f.bloomScale, -0.4, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Luminous Lotus / Starlight Blossom Petals
+            ctx.translate(headX, headY);
+
+            for (let p = 0; p < f.petals; p++) {
+              const pAngle = (p / f.petals) * Math.PI * 2 + sway * 0.04;
+              const petalLength = 14 * f.bloomScale;
+              const px = Math.cos(pAngle) * petalLength;
+              const py = Math.sin(pAngle) * petalLength;
+
+              ctx.save();
+              ctx.translate(px, py);
+              ctx.rotate(pAngle);
+
+              const petalGrad = ctx.createRadialGradient(0, 0, 1, 0, 0, 9 * f.bloomScale);
+              petalGrad.addColorStop(0, '#ffffff');
+              petalGrad.addColorStop(0.45, f.color);
+              petalGrad.addColorStop(1, 'rgba(255, 182, 193, 0)');
+              ctx.fillStyle = petalGrad;
+              ctx.shadowColor = f.glowColor;
+              ctx.shadowBlur = 10;
+
+              ctx.beginPath();
+              ctx.ellipse(0, 0, 7 * f.bloomScale, 4.5 * f.bloomScale, 0, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.restore();
+            }
+
+            // Glowing Golden Starlight Core
+            ctx.beginPath();
+            ctx.arc(0, 0, 4.5 * f.bloomScale, 0, Math.PI * 2);
+            ctx.fillStyle = '#fef08a';
+            ctx.shadowColor = '#ffffff';
+            ctx.shadowBlur = 10;
+            ctx.fill();
+
+            ctx.restore();
+          });
+
+          ctx.restore();
+        }
+
+        // Render Floating Memory Orbs (Scene 6)
+        drawMemoryOrbs(alpha) {
+          if (alpha <= 0.01) return;
+          const ctx = this.ctx;
+          const cx = this.width / 2;
+          const cy = this.height * 0.46;
+
+          this.orbs.forEach((orb) => {
+            orb.angle += orb.speed;
+            orb.x = cx + Math.cos(orb.angle) * orb.orbitRadiusX;
+            orb.y = cy + Math.sin(orb.angle) * orb.orbitRadiusY;
+
+            ctx.save();
+            ctx.globalAlpha = alpha;
+
+            // Orb Outer Radial Glow
+            const orbGlow = ctx.createRadialGradient(orb.x, orb.y, orb.radius * 0.2, orb.x, orb.y, orb.radius * 1.8);
+            orbGlow.addColorStop(0, 'rgba(253, 160, 133, 0.9)');
+            orbGlow.addColorStop(0.5, 'rgba(162, 155, 254, 0.4)');
+            orbGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = orbGlow;
+            ctx.beginPath();
+            ctx.arc(orb.x, orb.y, orb.radius * 1.8, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Orb Core Sphere with 3D reflection
+            const sphereGrad = ctx.createRadialGradient(orb.x - 7, orb.y - 7, 2, orb.x, orb.y, orb.radius);
+            sphereGrad.addColorStop(0, '#ffffff');
+            sphereGrad.addColorStop(0.4, '#fda085');
+            sphereGrad.addColorStop(0.8, '#6c5ce7');
+            sphereGrad.addColorStop(1, '#2d3436');
+            ctx.fillStyle = sphereGrad;
+            ctx.beginPath();
+            ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Orb Glyph Icon
+            ctx.font = '16px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(orb.icon, orb.x, orb.y);
+
+            ctx.restore();
+          });
+        }
+
+        // Render "WISH" star letters in Scene 11
+        drawWishStars(progress) {
+          if (progress <= 0.01) return;
+          const ctx = this.ctx;
+          ctx.save();
+          ctx.globalAlpha = Math.min(progress, 1);
+          ctx.font = '900 48px "Cinzel", serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+          ctx.shadowColor = '#f6d365';
+          ctx.shadowBlur = 24;
+          ctx.fillText('WISH ✨', this.width / 2, this.height * 0.44);
+          ctx.restore();
+        }
+
+        // Main Animation Loop
+        updateAndRender() {
+          const ctx = this.ctx;
+          ctx.clearRect(0, 0, this.width, this.height);
+
+          // Deep Cosmic Space Background Gradient
+          const bgGrad = ctx.createRadialGradient(
+            this.width / 2, this.height / 2, 20,
+            this.width / 2, this.height / 2, Math.max(this.width, this.height) * 0.9
+          );
+          bgGrad.addColorStop(0, '#0a0d24');
+          bgGrad.addColorStop(0.6, '#04060f');
+          bgGrad.addColorStop(1, '#010206');
+          ctx.fillStyle = bgGrad;
+          ctx.fillRect(0, 0, this.width, this.height);
+
+          // 1. Draw Background Stars (or single flickering star in Scene 1)
+          if (this.singleStarOnly) {
+            const cx = this.width / 2;
+            const cy = this.height / 2;
+            const pulse = Math.sin(Date.now() * 0.0035) * 0.5 + 0.5;
+
+            // Soft blue-white atmospheric corona
+            const aura = ctx.createRadialGradient(cx, cy, 1, cx, cy, 26);
+            aura.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            aura.addColorStop(0.25, `rgba(180, 220, 255, ${0.75 + pulse * 0.25})`);
+            aura.addColorStop(0.65, `rgba(130, 180, 255, ${0.25 + pulse * 0.2})`);
+            aura.addColorStop(1, 'rgba(130, 180, 255, 0)');
+            ctx.fillStyle = aura;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 26, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Intense white core
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = '#b3d8ff';
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 2.5 + pulse * 0.5, 0, Math.PI * 2);
+            ctx.fill();
+          } else {
+            if (this.starsGlobalAlpha < 1) {
+              this.starsGlobalAlpha += 0.02;
+            }
+            ctx.save();
+            ctx.globalAlpha = this.starsGlobalAlpha;
+            this.stars.forEach(s => {
+              s.alpha += Math.sin(Date.now() * s.flickerSpeed) * 0.01;
+              s.alpha = Math.max(0.15, Math.min(1, s.alpha));
+
+              ctx.beginPath();
+              ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+              ctx.fillStyle = `hsla(${s.hue}, 80%, 90%, ${s.alpha})`;
+              ctx.shadowColor = `hsla(${s.hue}, 80%, 75%, 0.8)`;
+              ctx.shadowBlur = s.size > 1.8 ? 6 : 2;
+              ctx.fill();
+            });
+            ctx.restore();
+          }
+
+          // 2. Shooting Stars
+          for (let i = this.shootingStars.length - 1; i >= 0; i--) {
+            const ss = this.shootingStars[i];
+            ss.x += Math.cos(ss.angle) * ss.speed;
+            ss.y += Math.sin(ss.angle) * ss.speed;
+            ss.alpha -= 0.02;
+
+            if (ss.alpha <= 0) {
+              this.shootingStars.splice(i, 1);
+              continue;
+            }
+
+            ctx.save();
+            ctx.strokeStyle = `rgba(255, 255, 255, ${ss.alpha})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(ss.x, ss.y);
+            ctx.lineTo(ss.x - Math.cos(ss.angle) * ss.length, ss.y - Math.sin(ss.angle) * ss.length);
+            ctx.stroke();
+            ctx.restore();
+          }
+
+          if (Math.random() < 0.018) {
+            this.spawnShootingStar();
+          }
+
+          // 3. Heart Constellation (Scene 2 & 11)
+          if (this.heartFormProgress > 0) {
+            this.drawHeartConstellation(this.heartFormProgress);
+          }
+
+          // 4. Realistic Moon (Scene 2 & 3)
+          if (this.moonAlpha > 0) {
+            const moonRadius = 60 * this.moonScale;
+            this.drawRealisticMoon(this.width / 2, this.height * 0.38, moonRadius, this.moonAlpha);
+          }
+
+          // 5. Dreamy Garden & Fireflies (Scene 4 & 5)
+          if (this.gardenAlpha > 0) {
+            this.drawGarden(this.gardenAlpha);
+
+            // Fireflies
+            this.fireflies.forEach(f => {
+              f.x += f.vx;
+              f.y += f.vy;
+              f.pulse += 0.04;
+
+              if (f.x < 10) f.vx *= -1;
+              if (f.x > this.width - 10) f.vx *= -1;
+              if (f.y < this.height * 0.5) f.vy *= -1;
+              if (f.y > this.height - 20) f.vy *= -1;
+
+              const fAlpha = f.alpha * (0.6 + Math.sin(f.pulse) * 0.4) * this.gardenAlpha;
+
+              ctx.save();
+              ctx.beginPath();
+              ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
+              ctx.fillStyle = `rgba(246, 211, 101, ${fAlpha})`;
+              ctx.shadowColor = '#f6d365';
+              ctx.shadowBlur = 12;
+              ctx.fill();
+              ctx.restore();
+            });
+          }
+
+          // 6. Memory Orbs (Scene 6)
+          if (this.sceneIndex === 6) {
+            this.drawMemoryOrbs(1);
+          }
+
+          // 7. "WISH" star letters (Scene 11)
+          if (this.wishStarsProgress > 0) {
+            this.drawWishStars(this.wishStarsProgress);
+          }
+
+          // 8. General Flying Particles (Smoke, Confetti, Stardust)
+          for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += p.gravity;
+            p.alpha -= p.decay;
+
+            if (p.alpha <= 0) {
+              this.particles.splice(i, 1);
+              continue;
+            }
+
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 6;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          }
+
+          requestAnimationFrame(() => this.updateAndRender());
+        }
+      }
+
+      /* ==========================================================
+         3. CINEMATIC STORY DIRECTOR & TIMELINE ORCHESTRATION
+         Follows the exact 13 scenes and story beats requested
+         ========================================================== */
+      class StoryDirector {
+        constructor() {
+          this.audio = new CelestialAudioEngine();
+          this.canvas = null;
+
+          // DOM Elements
+          this.primaryText = document.getElementById('primarySceneText');
+          this.secondaryText = document.getElementById('secondarySceneText');
+          this.actionBtnContainer = document.getElementById('actionBtnContainer');
+          this.sceneNameDisplay = document.getElementById('sceneNameDisplay');
+          this.timelineFill = document.getElementById('timelineFill');
+          this.letterModal = document.getElementById('letterModal');
+          this.envelopeContainer = document.getElementById('envelopeContainer');
+          this.letterBody = document.getElementById('letterBody');
+          this.giftContainer = document.getElementById('giftContainer');
+          this.cakeContainer = document.getElementById('cakeContainer');
+          this.orbModal = document.getElementById('orbModal');
+          this.grandReveal = document.getElementById('grandReveal');
+          this.blackout = document.getElementById('blackout-curtain');
+          this.flash = document.getElementById('flash-overlay');
+
+          this.currentScene = 1;
+          this.totalScenes = 13;
+          this.isPaused = false;
+          this.sceneTimer = null;
+          this.candlesBlown = false;
+
+          // Managed timers so switching scenes destroys all previous callbacks
+          this.activeTimeouts = [];
+          this.activeIntervals = [];
+
+          this.init();
+        }
+
+        safeTimeout(fn, ms) {
+          const id = setTimeout(() => {
+            this.activeTimeouts = this.activeTimeouts.filter(t => t !== id);
+            fn();
+          }, ms);
+          this.activeTimeouts.push(id);
+          return id;
+        }
+
+        safeInterval(fn, ms) {
+          const id = setInterval(fn, ms);
+          this.activeIntervals.push(id);
+          return id;
+        }
+
+        clearAllTimers() {
+          if (this.sceneTimer) {
+            clearTimeout(this.sceneTimer);
+            this.sceneTimer = null;
+          }
+          this.activeTimeouts.forEach(t => clearTimeout(t));
+          this.activeTimeouts = [];
+          this.activeIntervals.forEach(i => clearInterval(i));
+          this.activeIntervals = [];
+        }
+
+        init() {
+          const canvasEl = document.getElementById('universe-canvas');
+          this.canvas = new UniverseCanvas(canvasEl);
+          this.canvas.updateAndRender();
+
+          this.bindEvents();
+          this.startStory();
+        }
+
+        bindEvents() {
+          // Audio Toggle
+          const audioBtn = document.getElementById('audioToggleBtn');
+          const waves = document.getElementById('soundActiveWaves');
+          const muted = document.getElementById('soundMutedIcon');
+
+          audioBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (this.audio.isPlaying) {
+              this.audio.userMuted = true;
+              this.audio.stop();
+              waves.style.display = 'none';
+              muted.style.display = 'block';
+            } else {
+              this.audio.userMuted = false;
+              this.audio.start();
+              waves.style.display = 'flex';
+              muted.style.display = 'none';
+            }
+          });
+
+          // Reel Clean Mode Toggle
+          document.getElementById('cleanModeBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.body.classList.toggle('clean-mode');
+          });
+
+          // Pause / Play
+          const pauseBtn = document.getElementById('pausePlayBtn');
+          pauseBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.isPaused = !this.isPaused;
+            pauseBtn.textContent = this.isPaused ? 'Play' : 'Pause';
+            if (this.isPaused) {
+              if (this.sceneTimer) {
+                clearTimeout(this.sceneTimer);
+                this.sceneTimer = null;
+              }
+            } else {
+              if (this.currentScene < this.totalScenes) {
+                this.scheduleNext(4000);
+              }
+            }
+          });
+
+          // Prev Scene Button
+          document.getElementById('prevSceneBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (this.currentScene > 1) {
+              this.goToScene(this.currentScene - 1);
+            }
+          });
+
+          // Next Scene Button
+          document.getElementById('nextSceneBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (this.currentScene < this.totalScenes) {
+              this.goToScene(this.currentScene + 1);
+            }
+          });
+
+          // Replay Button in Grand Reveal (Only valid on finale scenes!)
+          document.getElementById('replayBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (this.currentScene < 12) return;
+            this.goToScene(1);
+          });
+
+          // Starlight Wish button in Finale
+          document.getElementById('makeWishStarBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (this.currentScene < 12) return;
+            const rect = e.target.getBoundingClientRect();
+            this.triggerTapSparkle(rect.left + rect.width / 2, rect.top);
+            this.canvas.createParticleExplosion(this.canvas.width / 2, this.canvas.height * 0.4, 60);
+            this.audio.playStarburstSound();
+          });
+
+          // Gift Box click to open
+          this.giftContainer?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (this.currentScene !== 8) return;
+            this.openGiftBox();
+          });
+
+          // Delegated clicks for dynamically generated action buttons
+          this.actionBtnContainer?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            if (btn.id === 'enterMoonBtn') {
+              this.flyThroughMoon();
+            } else if (btn.id === 'exploreDoneBtn') {
+              this.goToScene(7);
+            } else if (btn.id === 'blowCandlesBtn') {
+              this.executeCandleBlow();
+            }
+          });
+
+          // Close Memory Orb Modal
+          document.getElementById('closeOrbModalBtn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.orbModal.classList.remove('active');
+            this.audio.playChime(830.61);
+          });
+
+          // Interactive canvas tap ripples & Orb selection
+          const stage = document.getElementById('deviceStage');
+          stage.addEventListener('pointerdown', (e) => {
+            // Ignore if tapped on navigation or buttons
+            if (e.target.closest('button, .text-pill-btn, .celestial-btn, .bottom-hud, .top-bar')) {
+              return;
+            }
+
+            if (!this.audio.isPlaying && !this.audio.userMuted) {
+              this.audio.start();
+              waves.style.display = 'flex';
+              muted.style.display = 'none';
+            }
+
+            const rect = stage.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            this.triggerTapSparkle(e.clientX, e.clientY);
+            this.audio.playChime(622.25 + Math.random() * 300, 0.05);
+
+            if (this.currentScene === 6) {
+              this.canvas.orbs.forEach(orb => {
+                const dist = Math.hypot(orb.x - x, orb.y - y);
+                if (dist < orb.radius + 15) {
+                  this.showOrbDetail(orb);
+                }
+              });
+            }
+          });
+        }
+
+        triggerTapSparkle(cx, cy) {
+          for (let i = 0; i < 6; i++) {
+            const sp = document.createElement('div');
+            sp.className = 'tap-sparkle';
+            sp.style.left = `${cx}px`;
+            sp.style.top = `${cy}px`;
+            const tx = (Math.random() - 0.5) * 60;
+            const ty = (Math.random() - 0.5) * 60;
+            sp.style.setProperty('--tx', `${tx}px`);
+            sp.style.setProperty('--ty', `${ty}px`);
+            document.body.appendChild(sp);
+            setTimeout(() => sp.remove(), 800);
+          }
+        }
+
+        updateTimeline() {
+          const pct = ((this.currentScene - 1) / (this.totalScenes - 1)) * 100;
+          this.timelineFill.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+
+          const prevBtn = document.getElementById('prevSceneBtn');
+          const nextBtn = document.getElementById('nextSceneBtn');
+          if (prevBtn) prevBtn.style.opacity = this.currentScene <= 1 ? '0.4' : '1';
+          if (nextBtn) nextBtn.style.opacity = this.currentScene >= this.totalScenes ? '0.4' : '1';
+        }
+
+        showText(primary, secondary = '', htmlAction = '') {
+          this.primaryText.classList.remove('active');
+          this.primaryText.classList.add('exit');
+
+          this.safeTimeout(() => {
+            this.primaryText.innerHTML = primary;
+            this.secondaryText.innerHTML = secondary;
+            this.actionBtnContainer.innerHTML = htmlAction;
+
+            this.primaryText.classList.remove('exit');
+            this.primaryText.classList.add('active');
+          }, 350);
+        }
+
+        triggerFlash() {
+          this.flash.style.transition = 'none';
+          this.flash.style.opacity = '0.85';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              this.flash.style.transition = 'opacity 0.6s ease-out';
+              this.flash.style.opacity = '0';
+            });
+          });
+        }
+
+        /* ==========================================================
+           SCENE PROGRESSION ORCHESTRATOR
+           ========================================================== */
+        startStory() {
+          this.goToScene(1);
+        }
+
+        goToScene(index) {
+          this.clearAllTimers();
+          if (index < 1) index = 1;
+          if (index > this.totalScenes) return; // Do not wrap or loop!
+          this.currentScene = index;
+
+          // Reset all canvas properties (removes lingering WISH, moon fog, constellations, etc.)
+          this.canvas.resetSceneState(index);
+          this.updateTimeline();
+
+          // Reset screen overlays to 0 immediately so they are NEVER stuck
+          this.flash.style.transition = 'none';
+          this.flash.style.opacity = '0';
+          this.blackout.style.transition = 'none';
+          this.blackout.style.opacity = '0';
+
+          // Reset transient visual elements
+          this.actionBtnContainer.innerHTML = '';
+          if (this.envelopeContainer) this.envelopeContainer.classList.remove('active', 'opening');
+          this.letterModal.classList.remove('active', 'fold-to-gift');
+          this.giftContainer.classList.remove('active', 'bursting');
+          this.cakeContainer.classList.remove('active');
+          this.orbModal.classList.remove('active');
+          this.grandReveal.classList.remove('active');
+
+          if (index > 1) {
+            const topBar = document.querySelector('.top-bar');
+            const bottomHud = document.querySelector('.bottom-hud');
+            if (topBar) {
+              topBar.style.opacity = '1';
+              topBar.style.pointerEvents = 'auto';
+            }
+            if (bottomHud) {
+              bottomHud.style.opacity = '1';
+              bottomHud.style.pointerEvents = 'auto';
+            }
+          }
+
+          switch (index) {
+            case 1:
+              this.scene1_TheEmptyUniverse();
+              break;
+            case 2:
+              this.scene2_TheUniverseForms();
+              break;
+            case 3:
+              this.scene3_EnterTheMoon();
+              break;
+            case 4:
+              this.scene4_TheMagicalBirthdayWorld();
+              break;
+            case 5:
+              this.scene5_TheFlowerPath();
+              break;
+            case 6:
+              this.scene6_MemoryOrbs();
+              break;
+            case 7:
+              this.scene7_TheSecretLetter();
+              break;
+            case 8:
+              this.scene8_TheHiddenGift();
+              break;
+            case 9:
+              this.scene9_TheCakeReveal();
+              break;
+            case 10:
+              this.scene10_BlowTheCandles();
+              break;
+            case 11:
+              this.scene11_TheWish();
+              break;
+            case 12:
+              this.scene12_TheBirthdayReveal();
+              break;
+            case 13:
+              this.scene13_FinalMessage();
+              break;
+          }
+        }
+
+        scheduleNext(ms) {
+          if (this.currentScene >= this.totalScenes) return; // Stop at finale!
+          if (this.sceneTimer) clearTimeout(this.sceneTimer);
+          this.sceneTimer = setTimeout(() => {
+            if (!this.isPaused && this.currentScene < this.totalScenes) {
+              this.goToScene(this.currentScene + 1);
+            }
+          }, ms);
+        }
+
+        // SCENE 1: THE EMPTY UNIVERSE (0–3s)
+        scene1_TheEmptyUniverse() {
+          this.sceneNameDisplay.textContent = 'Scene 1 · The Beginning';
+          this.canvas.singleStarOnly = true;
+          this.canvas.starsGlobalAlpha = 0;
+          this.canvas.heartFormProgress = 0;
+          this.canvas.moonAlpha = 0;
+          this.canvas.gardenAlpha = 0;
+
+          const topBar = document.querySelector('.top-bar');
+          const bottomHud = document.querySelector('.bottom-hud');
+          if (topBar) {
+            topBar.style.opacity = '0';
+            topBar.style.pointerEvents = 'none';
+          }
+          if (bottomHud) {
+            bottomHud.style.opacity = '0';
+            bottomHud.style.pointerEvents = 'none';
+          }
+
+          this.showText('Wait…', '');
+
+          this.safeTimeout(() => {
+            this.showText('I made a little universe for you. ✨', '');
+            this.safeTimeout(() => {
+              this.canvas.singleStarOnly = false;
+              this.canvas.createParticleExplosion(this.canvas.width / 2, this.canvas.height / 2, 80, ['#ffffff', '#b3d8ff', '#f6d365', '#fda085']);
+              this.audio.playStarburstSound();
+              if (topBar) {
+                topBar.style.transition = 'opacity 1s ease';
+                topBar.style.opacity = '1';
+                topBar.style.pointerEvents = 'auto';
+              }
+              if (bottomHud) {
+                bottomHud.style.transition = 'opacity 1s ease';
+                bottomHud.style.opacity = '1';
+                bottomHud.style.pointerEvents = 'auto';
+              }
+            }, 1400);
+          }, 1800);
+
+          this.scheduleNext(5400);
+        }
+
+        // SCENE 2: THE UNIVERSE FORMS (3–7s)
+        scene2_TheUniverseForms() {
+          this.sceneNameDisplay.textContent = 'Scene 2 · Constellations';
+          this.showText('Because one world wasn’t enough…', '');
+
+          let prog = 0;
+          this.safeInterval(() => {
+            prog += 0.05;
+            this.canvas.heartFormProgress = Math.min(1, prog);
+          }, 50);
+
+          this.safeTimeout(() => {
+            this.showText('…so I made you a universe. 🌙', 'Every star carries a good thought for you');
+            let mAlpha = 0;
+            this.safeInterval(() => {
+              mAlpha += 0.04;
+              this.canvas.moonAlpha = Math.min(0.85, mAlpha);
+              this.canvas.moonScale = 1;
+            }, 40);
+          }, 2400);
+
+          this.scheduleNext(5400);
+        }
+
+        // SCENE 3: ENTER THE MOON (7–11s)
+        scene3_EnterTheMoon() {
+          this.sceneNameDisplay.textContent = 'Scene 3 · The Moon Portal';
+          this.canvas.heartFormProgress = 0;
+          this.canvas.moonAlpha = 1;
+          this.canvas.moonScale = 1.35;
+
+          const enterBtnHtml = `
+            <button id="enterMoonBtn" class="celestial-btn">
+              ENTER ✨
+            </button>
+          `;
+          this.showText('The Gateway', 'Tap to step inside your world', enterBtnHtml);
+
+          this.scheduleNext(5000);
+        }
+
+        flyThroughMoon() {
+          this.clearAllTimers();
+          this.audio.playStarburstSound();
+          this.triggerFlash();
+
+          let scale = 1.35;
+          const zoomAnim = this.safeInterval(() => {
+            scale += 0.35;
+            this.canvas.moonScale = scale;
+            if (scale > 5.5) {
+              clearInterval(zoomAnim);
+              this.goToScene(4);
+            }
+          }, 30);
+        }
+
+        // SCENE 4: THE MAGICAL BIRTHDAY WORLD (11–16s)
+        scene4_TheMagicalBirthdayWorld() {
+          this.sceneNameDisplay.textContent = 'Scene 4 · Magical Garden';
+          this.canvas.moonAlpha = 0;
+          this.canvas.moonScale = 0;
+          this.canvas.gardenAlpha = 1;
+
+          this.showText('Welcome to your little corner of the universe, <span class="gold-shimmer">Kuchupuchu</span>. 🫶', 'Where fireflies sing and flowers bloom for you');
+
+          this.scheduleNext(5200);
+        }
+
+        // SCENE 5: THE FLOWER PATH (16–21s)
+        scene5_TheFlowerPath() {
+          this.sceneNameDisplay.textContent = 'Scene 5 · The Flower Path';
+          this.showText('Follow the pathway…', 'Every bloom brings a memory to life');
+
+          this.canvas.flowers.forEach((flower, i) => {
+            this.safeTimeout(() => {
+              let fScale = 0;
+              const fInterval = this.safeInterval(() => {
+                fScale += 0.1;
+                flower.bloomScale = fScale;
+                if (fScale >= 1) {
+                  clearInterval(fInterval);
+                  this.canvas.createParticleExplosion(flower.x, flower.y - 15, 12, ['#fda085', '#ffffff']);
+                  this.audio.playChime(554.37 + i * 40, 0.06);
+                }
+              }, 40);
+            }, i * 450);
+          });
+
+          this.safeTimeout(() => {
+            const lastFlower = this.canvas.flowers[this.canvas.flowers.length - 1];
+            this.canvas.createParticleExplosion(lastFlower.x, lastFlower.y - 30, 40, ['#ff4757', '#f6d365', '#ffffff']);
+            this.audio.playStarburstSound();
+          }, 3300);
+
+          this.scheduleNext(5400);
+        }
+
+        // SCENE 6: MEMORY ORBS (21–27s)
+        scene6_MemoryOrbs() {
+          this.sceneNameDisplay.textContent = 'Scene 6 · Floating Memories';
+          const continueBtnHtml = `
+            <button id="exploreDoneBtn" class="text-pill-btn" style="margin-top: 14px; padding: 8px 20px;">
+              Continue Journey ❯
+            </button>
+          `;
+          this.showText('Floating Memories', 'Tap any glowing orb to open a feeling', continueBtnHtml);
+
+          this.scheduleNext(7500);
+        }
+
+        showOrbDetail(orb) {
+          document.getElementById('orbModalIcon').textContent = orb.icon;
+          document.getElementById('orbModalTitle').textContent = orb.title;
+          document.getElementById('orbModalDesc').textContent = orb.desc;
+          this.orbModal.classList.add('active');
+          this.audio.playChime(739.99, 0.12);
+        }
+
+        // SCENE 7: THE SECRET LETTER (27–32s)
+        scene7_TheSecretLetter() {
+          this.sceneNameDisplay.textContent = 'Scene 7 · The Secret Letter';
+          this.showText('One last thing…', 'Something written from the heart');
+
+          if (this.envelopeContainer) {
+            this.envelopeContainer.classList.add('active');
+          }
+
+          this.safeTimeout(() => {
+            if (this.envelopeContainer) {
+              this.envelopeContainer.classList.add('opening');
+              this.audio.playChime(622.25, 0.08);
+            }
+            this.safeTimeout(() => {
+              if (this.envelopeContainer) this.envelopeContainer.classList.remove('active');
+              this.letterModal.classList.add('active');
+              this.typewriterLetter();
+            }, 500);
+          }, 1500);
+
+          this.scheduleNext(8000);
+        }
+
+        typewriterLetter() {
+          const letterText = `I could have just said Happy Birthday…\n\nBut you deserve something a little more special.\n\nSo I turned a few lines of code\ninto a little universe for you. ❤️`;
+          this.letterBody.innerHTML = '<span class="letter-cursor"></span>';
+          let idx = 0;
+
+          const typingInterval = this.safeInterval(() => {
+            if (idx < letterText.length) {
+              const char = letterText[idx] === '\n' ? '<br/>' : letterText[idx];
+              this.letterBody.innerHTML = letterText.slice(0, idx + 1).replace(/\n/g, '<br/>') + '<span class="letter-cursor"></span>';
+              idx++;
+              if (idx % 6 === 0) {
+                this.audio.playChime(622.25 + (idx % 4) * 50, 0.02);
+              }
+            } else {
+              clearInterval(typingInterval);
+            }
+          }, 38);
+        }
+
+        // SCENE 8: THE HIDDEN GIFT (32–37s)
+        scene8_TheHiddenGift() {
+          this.sceneNameDisplay.textContent = 'Scene 8 · The Hidden Gift';
+          this.letterModal.classList.add('fold-to-gift');
+
+          this.safeTimeout(() => {
+            this.letterModal.classList.remove('active');
+            this.giftContainer.classList.add('active');
+            this.showText('There’s still one more surprise…', 'Tap the gift box to open!');
+            this.audio.playChime(554.37, 0.1);
+          }, 700);
+
+          this.scheduleNext(6000);
+        }
+
+        openGiftBox() {
+          this.clearAllTimers();
+          this.giftContainer.classList.add('bursting');
+          this.triggerFlash();
+          this.canvas.createParticleExplosion(this.canvas.width / 2, this.canvas.height / 2, 90, ['#f6d365', '#ff7675', '#ffffff', '#a29bfe']);
+          this.audio.playStarburstSound();
+
+          this.safeTimeout(() => {
+            this.goToScene(9);
+          }, 600);
+        }
+
+        // SCENE 9: THE CAKE REVEAL (37–42s)
+        scene9_TheCakeReveal() {
+          this.sceneNameDisplay.textContent = 'Scene 9 · The Birthday Cake';
+          this.cakeContainer.classList.add('active');
+          this.candlesBlown = false;
+
+          const candleFlames = [
+            document.getElementById('candleFlame1'),
+            document.getElementById('candleFlame2'),
+            document.getElementById('candleFlame3'),
+            document.getElementById('candleFlame4'),
+            document.getElementById('candleFlame5')
+          ];
+
+          candleFlames.forEach((flame, i) => {
+            if (flame) flame.style.opacity = '0';
+            this.safeTimeout(() => {
+              if (flame) {
+                flame.style.opacity = '1';
+                flame.classList.remove('extinguished');
+              }
+              this.canvas.createParticleExplosion(
+                this.canvas.width * 0.35 + i * 20,
+                this.canvas.height * 0.44,
+                8,
+                ['#f6d365', '#ffffff']
+              );
+              this.audio.playChime(554.37 + i * 70, 0.08);
+            }, (i + 1) * 550);
+          });
+
+          this.safeTimeout(() => {
+            this.showText('Make a wish. 🎂✨', 'Think of your fondest dream');
+          }, 3200);
+
+          this.scheduleNext(5800);
+        }
+
+        // SCENE 10: BLOW THE CANDLES (42–45s)
+        scene10_BlowTheCandles() {
+          this.sceneNameDisplay.textContent = 'Scene 10 · Blow the Candles';
+          const blowBtnHtml = `
+            <button id="blowCandlesBtn" class="celestial-btn">
+              Blow Candles 🌬️
+            </button>
+          `;
+          this.showText('Blow gently…', 'Tap below or blow into your mic', blowBtnHtml);
+
+          this.audio.initMicBlowDetection(() => {
+            this.executeCandleBlow();
+          });
+
+          this.scheduleNext(5500);
+        }
+
+        executeCandleBlow() {
+          if (this.candlesBlown) return;
+          this.candlesBlown = true;
+          this.clearAllTimers();
+          this.audio.stopMic();
+          this.audio.playBlowSound();
+
+          for (let i = 1; i <= 5; i++) {
+            const flame = document.getElementById(`candleFlame${i}`);
+            if (flame) flame.classList.add('extinguished');
+          }
+
+          const cakeRect = this.cakeContainer.getBoundingClientRect();
+          const stageRect = document.getElementById('deviceStage').getBoundingClientRect();
+          const cx = cakeRect.left - stageRect.left + cakeRect.width / 2;
+          const cy = cakeRect.top - stageRect.top + cakeRect.height * 0.35;
+
+          this.canvas.createCandleSmoke(cx, cy);
+
+          this.safeTimeout(() => {
+            this.goToScene(11);
+          }, 1100);
+        }
+
+        // SCENE 11: THE WISH (45–49s)
+        scene11_TheWish() {
+          this.sceneNameDisplay.textContent = 'Scene 11 · Starlight Wish';
+          this.cakeContainer.classList.remove('active');
+
+          let wProg = 0;
+          this.safeInterval(() => {
+            wProg += 0.08;
+            this.canvas.wishStarsProgress = Math.min(1, wProg);
+          }, 40);
+
+          this.safeTimeout(() => {
+            this.canvas.wishStarsProgress = 0;
+            let hProg = 0;
+            this.safeInterval(() => {
+              hProg += 0.08;
+              this.canvas.heartFormProgress = Math.min(1, hProg);
+            }, 40);
+            this.showText('Your wish has taken flight…', 'The stars are listening');
+            this.audio.playStarburstSound();
+          }, 2100);
+
+          this.scheduleNext(4800);
+        }
+
+        // SCENE 12: THE FINAL BIRTHDAY REVEAL (49–54s)
+        scene12_TheBirthdayReveal() {
+          this.sceneNameDisplay.textContent = 'Scene 12 · Happy Birthday!';
+          this.canvas.heartFormProgress = 0;
+
+          this.blackout.style.opacity = '1';
+
+          this.safeTimeout(() => {
+            this.blackout.style.opacity = '0';
+            this.triggerFlash();
+            this.grandReveal.classList.add('active');
+
+            this.canvas.createParticleExplosion(
+              this.canvas.width / 2,
+              this.canvas.height * 0.35,
+              120,
+              ['#ff4757', '#f6d365', '#ffffff', '#a29bfe', '#ff6b81']
+            );
+            this.audio.playStarburstSound();
+          }, 500);
+
+          this.scheduleNext(6500);
+        }
+
+        // SCENE 13: FINAL MESSAGE (54–58s+)
+        scene13_FinalMessage() {
+          this.sceneNameDisplay.textContent = 'Scene 13 · A Universe for You';
+          this.grandReveal.classList.add('active');
+
+          const quoteEl = document.querySelector('.grand-quote');
+          const blessingEl = document.querySelector('.grand-blessing');
+
+          if (quoteEl) {
+            quoteEl.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            quoteEl.style.opacity = '0';
+          }
+          if (blessingEl) {
+            blessingEl.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            blessingEl.style.opacity = '0';
+          }
+
+          // Step 1: "Today is your day…"
+          this.safeTimeout(() => {
+            if (quoteEl) {
+              quoteEl.innerHTML = '“Today is your day…”';
+              quoteEl.style.opacity = '1';
+            }
+          }, 800);
+
+          // Step 2: "So here's your reminder… You make this world a little more beautiful..."
+          this.safeTimeout(() => {
+            if (quoteEl) {
+              quoteEl.style.opacity = '0';
+              this.safeTimeout(() => {
+                quoteEl.innerHTML = '“So here’s your reminder…”<br/><br/><span class="gold-shimmer">“You make this world a little more beautiful just by being in it. ❤️”</span>';
+                quoteEl.style.opacity = '1';
+              }, 400);
+            }
+          }, 3200);
+
+          // Step 3: "Stay happy. Stay crazy. Stay you. 🫶"
+          this.safeTimeout(() => {
+            if (blessingEl) {
+              blessingEl.innerHTML = 'Stay happy. ✨<br/>Stay crazy. 🌙<br/>Stay you. 🫶';
+              blessingEl.style.opacity = '1';
+            }
+          }, 6200);
+
+          // Step 4: Final emotional climax: "You are not just another person in my world... You are my favourite part of it. 🫶"
+          this.safeTimeout(() => {
+            if (quoteEl) {
+              quoteEl.style.opacity = '0';
+              this.safeTimeout(() => {
+                quoteEl.innerHTML = '“You are not just another person in my world…<br/><br/><span class="gold-shimmer" style="font-size: 1.15em;">You are my favourite part of it. 🫶</span>”';
+                quoteEl.style.opacity = '1';
+                this.canvas.createParticleExplosion(this.canvas.width / 2, this.canvas.height * 0.38, 50, ['#f6d365', '#ff7675', '#ffffff']);
+              }, 400);
+            }
+          }, 9200);
+
+          // STAYS on Finale permanently. NO auto-looping!
+        }
+      }
+
+      // Initialize once when DOM is ready
+      if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', () => {
+          if (!window.storyDirector) window.storyDirector = new StoryDirector();
+        });
+      } else {
+        if (!window.storyDirector) window.storyDirector = new StoryDirector();
+      }
+    })();
+  </script>
+</body>
+</html>
